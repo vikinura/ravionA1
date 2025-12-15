@@ -24,8 +24,8 @@ require 'header.php';
         <h1>Step into style</h1>
         <p>Koleksi sepatu terbaru — performa dan gaya untuk setiap langkahmu.</p>
         <div class="cta-row">
-          <a class="btn" href="products.html">Belanja Sekarang</a>
-          <a class="btn ghost" href="products.html#new">New Arrivals</a>
+          <a class="btn" href="products.php">Belanja Sekarang</a>
+          <a class="btn ghost" href="products.php#new">New Arrivals</a>
         </div>
       </div>
     </div>
@@ -34,15 +34,21 @@ require 'header.php';
   <section class="category-section">
     <div class="category-card">
       <img src="img/Sneakers.jpg" alt="Men's Collection">
-      <div class="overlay"><h2>SNEAKERS</h2></div>
+      <div class="overlay">
+        <h2>SNEAKERS</h2>
+      </div>
     </div>
     <div class="category-card">
       <img src="img/Runing.jpg" alt="Women's Collection">
-      <div class="overlay"><h2>RUNNING</h2></div>
+      <div class="overlay">
+        <h2>RUNNING</h2>
+      </div>
     </div>
     <div class="category-card">
       <img src="img/trends.jpg" alt="Kids' Collection">
-      <div class="overlay"><h2>TRENDS</h2></div>
+      <div class="overlay">
+        <h2>TRENDS</h2>
+      </div>
     </div>
   </section>
 
@@ -58,7 +64,7 @@ require 'header.php';
   </section>
 </main>
 
-  <?php
+<?php
 require 'footer.php';
 ?>
 

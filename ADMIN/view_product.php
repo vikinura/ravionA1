@@ -133,9 +133,8 @@ $msg = $_GET['msg'] ?? '';
                                         <td>
                                             <div class="action-buttons">
                                                 <a href="edit_product.php?id=<?= $row['id_product'] ?>" class="btn-action btn-edit">Edit</a>
-
                                                 <button type="button"
-                                                    class="btn-action btn-delete js-delete-btn"
+                                                    class="btn-action btn-delete-admin js-delete-btn"
                                                     data-id="<?php echo $row['id_product']; ?>"
                                                     data-name="<?php echo htmlspecialchars($row['name']); ?>">
                                                     Delete
@@ -195,7 +194,7 @@ $msg = $_GET['msg'] ?? '';
                     const id = this.getAttribute('data-id');
                     const name = this.getAttribute('data-name');
 
-                    console.log("Tombol diklik. ID:", id, "Nama:", name); 
+                    console.log("Tombol diklik. ID:", id, "Nama:", name);
 
                     inputId.value = id;
                     modalText.innerText = 'Hapus "' + name + '" secara permanen?';
@@ -231,7 +230,7 @@ $msg = $_GET['msg'] ?? '';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message); 
+                    alert(data.message);
 
                     if (data.status === 'success') {
                         document.getElementById('modalOverlay').style.display = 'none';

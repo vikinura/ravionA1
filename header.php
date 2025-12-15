@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role2'] != 'user') {
-    header("Location: header  .php");
+    header("Location: header.php");
     exit;
 }
 $username = $_SESSION['username'];

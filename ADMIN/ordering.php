@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "web_login.");
+$conn = new mysqli("localhost", "root", "", "web_login");
 if ($conn->connect_error) {
     die("DB Error: " . $conn->connect_error);
 }
