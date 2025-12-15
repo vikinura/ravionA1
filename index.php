@@ -1,35 +1,28 @@
 <?php
-// Pastikan path ke database benar (sesuaikan jika ada di folder config/)
 require 'db_connect.php'; 
 
-$message = "";       // Variabel penampung pesan error
-$msg_type = "";      // Variabel penampung tipe pesan (error/success)
-$success = false;    // Variabel penampung status sukses (DEFAULT FALSE)
+$message = "";       
+$msg_type = "";      
+$success = false;    
 
-// --- LOGIKA PENDAFTARAN ---
 if (isset($_POST['register'])) {
     
-    // Ambil & Bersihkan Data Input
     $fullname = htmlspecialchars($_POST['fullname']);
     $username = htmlspecialchars($_POST['username']);
     $email    = htmlspecialchars($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // 1. Cek apakah Username atau Email sudah ada?
     $check = mysqli_query($conn, "SELECT * FROM users2 WHERE email='$email' OR username='$username'");
     
     if (mysqli_num_rows($check) > 0) {
-        // GAGAL: Set pesan error agar muncul di HTML bawah
         $message = "Username atau Email sudah terdaftar!";
         $msg_type = "error";
     } else {
-        // 2. Jika aman, simpan ke Database
         $query = mysqli_query($conn, 
             "INSERT INTO users2 (fullname, username, email, password, role2)
             VALUES('$fullname', '$username', '$email', '$password', 'user')");
 
         if ($query) {
-            // SUKSES: Ubah status menjadi true
             $success = true;
         } else {
             $message = "Terjadi kesalahan sistem. Silakan coba lagi.";
@@ -57,7 +50,7 @@ if (isset($_POST['register'])) {
             --border: #e5e5e5;
             --error-bg: #ffebee;
             --error-text: #b71c1c;
-            --success-color: #1b5e20; /* Tambahan warna sukses */
+            --success-color: #1b5e20; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,7 +76,6 @@ if (isset($_POST['register'])) {
             border: 1px solid rgba(0,0,0,0.04);
         }
 
-        /* --- LOGO FIX (Background Hitam) --- */
         .brand-logo {
             width: 80px; 
             height: auto; 
@@ -110,7 +102,6 @@ if (isset($_POST['register'])) {
             margin-bottom: 25px;
         }
 
-        /* --- STYLE NOTIFIKASI ERROR --- */
         .alert {
             padding: 12px 16px;
             border-radius: 8px;
@@ -163,7 +154,6 @@ if (isset($_POST['register'])) {
             background-color: var(--accent);
         }
         
-        /* --- FORM --- */
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--primary); }
         .form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; transition: all 0.2s ease; background-color: #fafafa; }

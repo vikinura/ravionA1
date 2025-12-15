@@ -3,20 +3,17 @@ $page_title = 'Checkout Pembayaran';
 require 'header.php'; 
 require 'db_connect.php'; 
 
-// [FIX]: Ambil User ID atau Session ID untuk query database
 $user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
 $session_id = session_id();
 
 $cart_items = [];
 
-// [FIX]: Query mengambil item keranjang dari TABEL DATABASE (carts)
 if ($user_id !== null) {
-    // Jika user login, ambil berdasarkan user_id
     $sql_cart = "SELECT product_id as id, size, qty FROM carts WHERE user_id = ?";
     $stmt_cart = $conn->prepare($sql_cart);
     $stmt_cart->bind_param('i', $user_id);
 } else {
-    // Jika tamu, ambil berdasarkan session_id
+
     $sql_cart = "SELECT product_id as id, size, qty FROM carts WHERE user_id IS NULL AND session_id = ?";
     $stmt_cart = $conn->prepare($sql_cart);
     $stmt_cart->bind_param('s', $session_id);
@@ -31,12 +28,10 @@ if ($stmt_cart) {
     $stmt_cart->close();
 }
 
-// Lanjutkan logika checkout seperti biasa
 $cart_ids = array_column($cart_items, 'id');
 $cart_details = [];
 $total_price = 0;
 
-// Tampilkan pesan error session jika ada (dari proses gagal)
 if (isset($_SESSION['error_message'])) {
     echo '<div style="background-color:#f8d7da;color:#721c24;padding:15px;margin:15px auto;border-radius:5px;max-width:800px;">';
     echo '<strong>⚠️ Gagal Memproses Pesanan:</strong> ' . htmlspecialchars($_SESSION['error_message']);
@@ -45,11 +40,9 @@ if (isset($_SESSION['error_message'])) {
 }
 
 if (!empty($cart_ids)) {
-    // 1. Buat placeholder untuk SQL IN (?)
     $placeholders = implode(',', array_fill(0, count($cart_ids), '?')); 
     $types = str_repeat('i', count($cart_ids));
     
-    // 2. Ambil detail produk berdasarkan ID yang ada di keranjang
     $sql = "SELECT id_product, name, brand, price, image1 FROM products WHERE id_product IN ($placeholders)";
     
     $stmt = $conn->prepare($sql);
@@ -70,7 +63,6 @@ if (!empty($cart_ids)) {
     }
     $stmt->close(); 
     
-    // 3. Gabungkan data cart (qty/size) dengan data produk (nama/harga)
     foreach ($cart_items as $item) {
         $product = $product_map[$item['id']] ?? null;
         if ($product) {
@@ -85,9 +77,7 @@ if (!empty($cart_ids)) {
     }
 }
 
-// [PENTING]: Jika keranjang kosong (dari database), baru lempar ke products.php
 if (empty($cart_details)) {
-    // Opsional: Anda bisa redirect ke cart.php atau products.php
     header('Location: products.php'); 
     exit;
 }

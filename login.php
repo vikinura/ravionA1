@@ -1,29 +1,22 @@
 <?php
 session_start();
-// Sesuaikan path koneksi database Anda (db_connect.php atau config/db.php)
 require 'db_connect.php'; 
 
-// --- LOGIKA PHP (PROSES LOGIN) ---
 if (isset($_POST['login'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
 
-    // Cek user berdasarkan username ATAU email
     $query  = "SELECT * FROM users2 WHERE username='$username' OR email='$username'";
     $result = mysqli_query($conn, $query);
 
-    // 1. Cek apakah usernya ada?
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
 
-        // 2. Cek apakah password benar?
         if (password_verify($password, $row['password'])) {
-            // Set Session
             $_SESSION['user_id']  = $row['id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['role2']    = $row['role2'];
 
-            // Cek Role untuk Redirect
             if ($row['role2'] == 'admin') {
                 header("Location: ADMIN/adminpage.php");
             } else {
@@ -49,8 +42,8 @@ if (isset($_POST['login'])) {
     <style>
 
         :root {
-            --primary: #0a0a0a;   /* Hitam */
-            --accent: #d32f2f;    /* Merah */
+            --primary: #0a0a0a;   
+            --accent: #d32f2f;    
             --bg: #f8f9fa;
             --text: #111;
             --gray: #666;
@@ -69,11 +62,10 @@ if (isset($_POST['login'])) {
             color: var(--text);
         }
 
-        /* --- KARTU LOGIN --- */
         .auth-card {
             background: #fff;
             width: 100%;
-            max-width: 400px; /* Sedikit lebih ramping dari register */
+            max-width: 400px; 
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.06);
@@ -87,9 +79,9 @@ if (isset($_POST['login'])) {
             display: block;
             margin-left: auto;
             margin-right: auto;
-            background-color: #000; /* Memberi warna latar hitam */
-            padding: 12px;          /* Memberi jarak agar logo tidak mepet kotak */
-            border-radius: 12px;    /* Membuat sudut kotak melengkung */
+            background-color: #000; 
+            padding: 12px;          
+            border-radius: 12px;    
         }
 
         @keyframes fadeIn {
@@ -97,7 +89,6 @@ if (isset($_POST['login'])) {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- HEADER --- */
         h2 {
             font-size: 26px;
             font-weight: 700;
@@ -112,7 +103,6 @@ if (isset($_POST['login'])) {
             margin-bottom: 30px;
         }
 
-        /* --- FORM --- */
         .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -128,7 +118,7 @@ if (isset($_POST['login'])) {
 
         .form-control {
             width: 100%;
-            padding: 14px 16px; /* Padding lebih besar biar enak diklik */
+            padding: 14px 16px; 
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 14px;
@@ -144,7 +134,6 @@ if (isset($_POST['login'])) {
             box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
         }
 
-        /* --- BUTTON --- */
         .btn-block {
             width: 100%;
             padding: 14px;
@@ -163,7 +152,6 @@ if (isset($_POST['login'])) {
             background-color: var(--accent);
         }
 
-        /* --- ERROR ALERT --- */
         .alert-error {
             background: #ffebee;
             border: 1px solid #ffcdd2;
@@ -178,7 +166,6 @@ if (isset($_POST['login'])) {
             gap: 8px;
         }
 
-        /* --- FOOTER --- */
         .auth-footer {
             margin-top: 30px;
             font-size: 13px;

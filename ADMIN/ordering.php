@@ -1,14 +1,11 @@
 <?php
-// ================= DATABASE CONNECT =================
 $conn = new mysqli("localhost", "root", "", "web_login.");
 if ($conn->connect_error) {
     die("DB Error: " . $conn->connect_error);
 }
 
-// =============== HANDLE AJAX REQUESTS ===============
 if (isset($_GET["action"])) {
 
-    // ---- 1. Ambil Dashboard Data ----
     if ($_GET["action"] == "dashboard") {
         $month = $_GET["month"];
 
@@ -73,7 +70,6 @@ if (isset($_GET["action"])) {
         exit;
     }
 
-    // ---- 2. Ambil semua orders ----
     if ($_GET["action"] == "payments") {
 
         $orders = [];
@@ -107,7 +103,6 @@ if (isset($_GET["action"])) {
         exit;
     }
 
-    // ---- 3. Konfirmasi pembayaran ----
     if ($_GET["action"] == "confirm") {
         $id = $_POST["order_id"];
         $conn->query("UPDATE orders SET status='confirmed' WHERE order_id='$id'");
@@ -164,14 +159,11 @@ if (isset($_GET["action"])) {
 
             <h2>Ordering</h2>
 
-            <!-- PAYMENT LIST -->
             <section class="card">
                 <h3>Konfirmasi Pembayaran</h3>
                 <div id="paymentList"></div>
             </section>
 
-            <!-- KPI -->
-            <!-- ANALYTIC -->
             <section class="card">
                 <h3>Analitik</h3>
                 Bulan: <input type="month" id="analyticMonth">

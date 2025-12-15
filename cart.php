@@ -3,7 +3,6 @@ $page_title = 'Keranjang Belanja';
 require 'header.php'; 
 require 'db_connect.php'; 
 
-// quick DB sanity check
 if (!isset($conn) || !($conn instanceof mysqli)) {
     die('Database connection error: $conn not available. Periksa db_connect.php');
 }

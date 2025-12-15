@@ -66,7 +66,6 @@ require 'footer.php';
 
 
 <script src="js/ui-helpers.js"></script>
-<script src="js/cart.js"></script>
 <script src="js/main-init.js"></script>
 
 </html>

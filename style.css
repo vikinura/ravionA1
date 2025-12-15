@@ -2,7 +2,7 @@
   --bg:#fff;
   --text:#111;
   --muted:#666;
-  --accent:#d32f2f; /* merah aksen seperti footlocker */
+  --accent:#d32f2f; 
   --black:#0a0a0a;
   --container:1100px;
   --radius:12px;
@@ -24,7 +24,7 @@ body{
 /* container */
 .container{max-width:var(--container);margin:0 auto;padding:24px}
 
-/* === HEADER / NAVBAR === */
+/* HEADER / NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -62,10 +62,10 @@ body{
 }
 
 .nav-links a:hover {
-  color: #ff3b3b; /* warna merah seperti tombol 'Belanja Sekarang' */
+  color: #ff3b3b; 
 }
 
-/* === NAV CART ICON === */
+/* NAV CART ICON */
 .cart-link {
   position: relative;
   display: flex;
@@ -75,7 +75,7 @@ body{
 .cart-icon {
   width: 24px;
   height: 24px;
-  filter: invert(1); /* biar putih di navbar hitam */
+  filter: invert(1); 
   transition: transform 0.2s ease;
 }
 
@@ -106,14 +106,14 @@ body{
 }
 .slides {
   display: flex;
-  width: calc(10% * 5); /* total gambar (3 + 3 duplikat) */
+  width: calc(10% * 5); 
   animation: slideLoop 10s linear infinite;
   width: 100%;
-  height: 600px;          /* sesuaikan tinggi sesuai tampilan */
-  object-fit: cover;      /* gambar terisi penuh, tanpa distorsi */
-  object-position: center; /* bagian tengah tetap fokus */
+  height: 600px;          
+  object-fit: cover;      
+  object-position: center; 
   flex-shrink: 0;
-  border-radius: 10px;    /* opsional: buat sudut lembut */
+  border-radius: 10px;  
 }
 
 .hero-slider img {
@@ -191,7 +191,7 @@ h1{font-size:40px;margin:0 0 12px}
 .price{font-weight:700}
 .btn-sm{padding:8px 10px;border-radius:8px;font-weight:700;text-decoration:none;display:inline-block}
 
-/* === SIZE MODAL === */
+/* SIZE MODAL */
 .size-options {
   display: flex;
   flex-wrap: wrap;
@@ -257,7 +257,7 @@ h1{font-size:40px;margin:0 0 12px}
 .product-info p{color:var(--muted)}
 .qty-row{display:flex;gap:8px;align-items:center;margin:12px 0}
 .qty-row button{padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer}
-/* === PRODUCT DETAIL PAGE === */
+/* PRODUCT DETAIL PAGE */
 .product-detail {
   display: flex;
   flex-wrap: wrap;
@@ -429,7 +429,7 @@ h1{font-size:40px;margin:0 0 12px}
   padding-bottom: 12px;
 }
 
-/* === FOOTER === */
+/* FOOTER */
 .site-footer {
   background-color: #000;
   color: #fff;
@@ -499,9 +499,9 @@ h1{font-size:40px;margin:0 0 12px}
   .product-detail{grid-template-columns:1fr}
   .checkout-grid{grid-template-columns:1fr}
 }
-/* === PAYMENT MODAL === */
+/*PAYMENT MODAL*/
 .modal {
-  display: none; /* Hidden by default */
+  display: none; 
   position: fixed;
   z-index: 2000;
   left: 0;
@@ -625,21 +625,21 @@ h1{font-size:40px;margin:0 0 12px}
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 38px;   /* atur ruang atas di sini */
-  padding-bottom: 1px; /* atur ruang bawah di sini */
+  padding-top: 38px;   
+  padding-bottom: 1px; 
 }
 
 .brand-logos {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;   /* agar sejajar di tengah vertikal */
-  gap: 160px;            /* jarak antar logo, sesuaikan */
+  align-items: center;   
+  gap: 160px;            
   max-width: 1500px;
 }
 
 .brand-logos img {
-  height: 100px;          /* bisa diubah ke 90–100px sesuai selera */
+  height: 100px;          
   object-fit: contain;
   opacity: 0.85;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -673,11 +673,11 @@ h1{font-size:40px;margin:0 0 12px}
 .action-row {
     display: flex;
     align-items: center;
-    gap: 8px; /* Jarak antar elemen */
+    gap: 8px; 
     margin-top: 12px;
 }
 
-/* 2. Tombol Plus (+) dan Minus (-) */
+/* Tombol Plus (+) dan Minus (-) */
 .btn-qty {
     display: inline-flex;       
     justify-content: center;    
@@ -690,9 +690,9 @@ h1{font-size:40px;margin:0 0 12px}
     color: #333;                
     text-decoration: none;      
     font-weight: bold;
-    font-size: 18px; /* Ukuran simbol +/- */
+    font-size: 18px;
     transition: all 0.2s;       
-    line-height: 0; /* Agar simbol pas di tengah vertikal */
+    line-height: 0;
 }
 
 .btn-qty:hover {
@@ -701,7 +701,7 @@ h1{font-size:40px;margin:0 0 12px}
     color: #000;
 }
 
-/* 3. Angka Quantity */
+/* Angka Quantity */
 .qty-display {
     font-weight: bold;
     font-size: 14px;
@@ -709,7 +709,7 @@ h1{font-size:40px;margin:0 0 12px}
     text-align: center;
 }
 
-/* 4. Tombol Hapus (Style Outline/Garis) */
+/* Tombol Hapus (Style Outline/Garis) */
 .btn-delete {
     display: inline-block;
     margin-left: 12px;          
@@ -718,7 +718,7 @@ h1{font-size:40px;margin:0 0 12px}
     color: #dc3545;             
     background-color: transparent;     
     border: 1px solid #dc3545;  
-    border-radius: 50px; /* Bentuk kapsul */       
+    border-radius: 50px;    
     text-decoration: none;
     font-weight: 500;
     transition: all 0.2s;

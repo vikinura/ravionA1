@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond('error', 'Metode tidak diizinkan! Gunakan form.');
 }
 
-// Pastikan direktori upload (relatif ke lokasi file ini)
 $targetDir = __DIR__ . "/../upload/";
 
 if (!is_dir($targetDir)) {
@@ -25,7 +24,6 @@ if (!is_dir($targetDir)) {
     }
 }
 
-// ambil data (basic sanitasi)
 $name = $conn->real_escape_string($_POST['name'] ?? '');
 $price = floatval($_POST['price'] ?? 0);
 $stock = intval($_POST['stock'] ?? 0);
@@ -36,7 +34,6 @@ $rating      = floatval($_POST['rating'] ?? 0);
 $description = $conn->real_escape_string($_POST['description'] ?? '');
 $categories = $conn->real_escape_string($_POST['categories'] ?? '');
 
-// fungsi upload dengan penanganan nama file aman
 $uploadedImages = [];
 
 foreach ($_FILES['photos']['tmp_name'] as $index => $tmp) {
@@ -53,14 +50,12 @@ foreach ($_FILES['photos']['tmp_name'] as $index => $tmp) {
     }
 }
 
-// Pastikan selalu 5 slot
+
 while (count($uploadedImages) < 5) {
     $uploadedImages[] = null;
 }
 
-// Upload gambar
 
-// Simpan ke DB (gunakan prepared statement untuk aman)
 $stmt = $conn->prepare("
     INSERT INTO products 
     (name, brand, categories, price, old_price, rating, description,

@@ -21,7 +21,7 @@ if ($stmt_order === false) {
     die("Error prepare statement: " . $conn->error);
 }
 
-$stmt_order->bind_param("i", $order_id); // 'i' untuk integer
+$stmt_order->bind_param("i", $order_id); 
 $stmt_order->execute();
 $result_order = $stmt_order->get_result();
 
@@ -30,13 +30,10 @@ if ($result_order->num_rows > 0) {
 }
 $stmt_order->close();
 
-// Cek jika pesanan tidak ditemukan
-//ardan
 if (!$order) {
     die("Error: Pesanan dengan ID #{$order_id} tidak ditemukan.");
 }
 
-// 3. Ambil Data Detail Item Pesanan (order_items)
 $sql_items = "
     SELECT oi.*, p.name, p.brand, p.image1 
     FROM order_items oi

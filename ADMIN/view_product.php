@@ -1,11 +1,9 @@
 <?php
 require 'db_connect.php';
 
-// Ambil semua produk
 $sql  = "SELECT * FROM products ORDER BY created_at DESC";
 $res  = $conn->query($sql);
 
-// Pesan notifikasi
 $msg = $_GET['msg'] ?? '';
 ?>
 <!DOCTYPE html>
@@ -18,10 +16,8 @@ $msg = $_GET['msg'] ?? '';
     <link rel="stylesheet" href="style_admin.css">
 
     <style>
-        /* Paksa Modal agar di atas segalanya */
         #modalOverlay {
             display: none;
-            /* Default sembunyi */
             position: fixed;
             top: 0;
             left: 0;
@@ -29,7 +25,6 @@ $msg = $_GET['msg'] ?? '';
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
             z-index: 9999 !important;
-            /* Angka z-index sangat tinggi */
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(2px);
@@ -182,7 +177,6 @@ $msg = $_GET['msg'] ?? '';
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // 1. Sidebar Logic
             document.querySelectorAll('.parent-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const target = btn.dataset.target;
@@ -191,36 +185,29 @@ $msg = $_GET['msg'] ?? '';
                 });
             });
 
-            // 2. MODAL LOGIC (Menggunakan Event Listener Otomatis)
             const modal = document.getElementById('modalOverlay');
             const inputId = document.getElementById('deleteId');
             const modalText = document.getElementById('modalText');
             const btnCancel = document.getElementById('btnCancelModal');
 
-            // Cari semua tombol dengan class 'js-delete-btn'
             document.querySelectorAll('.js-delete-btn').forEach(button => {
                 button.addEventListener('click', function() {
-                    // Ambil data dari atribut tombol
                     const id = this.getAttribute('data-id');
                     const name = this.getAttribute('data-name');
 
-                    console.log("Tombol diklik. ID:", id, "Nama:", name); // Cek Console (F12) jika macet
+                    console.log("Tombol diklik. ID:", id, "Nama:", name); 
 
-                    // Isi form modal
                     inputId.value = id;
                     modalText.innerText = 'Hapus "' + name + '" secara permanen?';
 
-                    // Tampilkan modal
                     modal.style.display = 'flex';
                 });
             });
 
-            // Fungsi Tutup Modal
             function closeModal() {
                 modal.style.display = 'none';
             }
 
-            // Event Listener Tutup Modal
             if (btnCancel) btnCancel.addEventListener('click', closeModal);
 
             if (modal) {
@@ -230,11 +217,11 @@ $msg = $_GET['msg'] ?? '';
             }
 
         });
-        //hapus produk
+
         const deleteForm = document.getElementById('deleteForm');
 
         deleteForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // ⛔ stop reload halaman
+            e.preventDefault(); // ⛔ 
 
             const formData = new FormData(deleteForm);
 
@@ -244,13 +231,11 @@ $msg = $_GET['msg'] ?? '';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message); // 🔔 notifikasi
+                    alert(data.message); 
 
                     if (data.status === 'success') {
-                        // tutup modal
                         document.getElementById('modalOverlay').style.display = 'none';
 
-                        // reload halaman biar data update
                         location.reload();
                     }
                 })

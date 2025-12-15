@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";  // default XAMPP
-$password = "";      // biasanya kosong
+$username = "root";  
+$password = "";      
 $dbname = "web_login.";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

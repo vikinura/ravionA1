@@ -17,7 +17,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role2'] != 'admin') {
 </head>
 <body>
   <div class="app">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand">
         <img src="../img/LOGo2.png" alt="Ravion Logo" class="logo-img">

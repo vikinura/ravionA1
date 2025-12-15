@@ -3,13 +3,11 @@ $page_title = 'Pembayaran Tertunda';
 require 'header.php'; 
 require 'db_connect.php'; 
 
-// 1. Ambil Order ID dari URL
 $order_id = filter_input(INPUT_GET, 'order_id', FILTER_VALIDATE_INT);
 if (!$order_id || $order_id <= 0) {
     die('<div class="container" style="text-align:center; padding:50px;"><h2>Nomor pesanan tidak valid.</h2><a href="products.php" class="btn">Kembali Belanja</a></div>');
 }
 
-// 2. Ambil data pesanan dari database menggunakan Prepared Statement
 $sql_order = "SELECT total_harga, metode_pembayaran, status FROM orders WHERE order_id = ?";
 $stmt_order = $conn->prepare($sql_order);
 
@@ -20,15 +18,13 @@ if ($stmt_order === false) {
 $stmt_order->bind_param("i", $order_id);
 $stmt_order->execute();
 $result_order = $stmt_order->get_result();
-$order = $result_order->fetch_assoc(); // <-- $order diisi di sini
+$order = $result_order->fetch_assoc(); 
 $stmt_order->close();
 
-// KRUSIAL: Cek jika order tidak ditemukan
 if (!$order) {
     die('<div class="container" style="text-align:center; padding:50px;"><h2>Pesanan dengan ID #' . htmlspecialchars($order_id) . ' tidak ditemukan.</h2><a href="products.php" class="btn">Kembali Belanja</a></div>');
 }
 
-// Data tampilan (AMAN, karena $order sudah dicek)
 $total_bayar = number_format($order['total_harga'], 0, ',', '.');
 $metode = strtoupper($order['metode_pembayaran']);
 
@@ -72,8 +68,8 @@ $metode = strtoupper($order['metode_pembayaran']);
 </div>
 
 <?php 
-// Sertakan script JS yang dibutuhkan
-echo '<script src="js/ui-helpers.js"></script>'; // Anda perlu memastikan file ini ada
-echo '<script src="js/checkout.js"></script>'; // Script yang memuat fungsi copyToClipboard
+
+echo '<script src="js/ui-helpers.js"></script>';
+echo '<script src="js/checkout.js"></script>'; 
 require 'footer.php'; 
 ?>

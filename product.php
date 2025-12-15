@@ -38,11 +38,10 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
 ?>
 
 <style>
-    /* 1. CSS untuk Toast Notification (Pesan Pop-up) */
     #toast-notification {
         visibility: hidden;
         min-width: 250px;
-        background-color: #333; /* Warna Background Gelap */
+        background-color: #333; 
         color: #fff;
         text-align: center;
         border-radius: 50px;
@@ -61,13 +60,12 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
     #toast-notification.show {
         visibility: visible;
         opacity: 1;
-        bottom: 50px; /* Animasi naik sedikit */
+        bottom: 50px; 
     }
 
-    /* 2. CSS untuk Animasi Ikon Keranjang (Bounce) */
     @keyframes cartBump {
         0% { transform: scale(1); }
-        50% { transform: scale(1.4); color: #ff4757; } /* Membesar & berubah warna merah */
+        50% { transform: scale(1.4); color: #ff4757; } 
         100% { transform: scale(1); color: inherit; }
     }
 
@@ -152,7 +150,6 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
 <script src="js/main-init.js"></script> 
 
 <script>
-  // Fungsi Ganti Gambar Utama
   function changeMainImage(src, element) {
       document.getElementById('main-product-image').src = src;
       document.querySelectorAll('#thumb-list img').forEach(img => img.classList.remove('active'));
@@ -167,7 +164,6 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
     const btnPlus = document.querySelector('.qty-btn-plus');
     const toast = document.getElementById('toast-notification'); 
 
-    // --- UTILITIES ---
     function showToast(message) {
         if(!toast) return;
         toast.innerText = message;
@@ -175,13 +171,11 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
         setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
     }
 
-    // Update Hidden Input untuk Qty
     function syncHiddenQty(val) {
         if (document.getElementById('form-qty')) document.getElementById('form-qty').value = val;
         if (document.getElementById('form-qty-2')) document.getElementById('form-qty-2').value = val;
     }
 
-    // Tombol Plus/Minus
     function updateQty(delta) {
         let current = parseInt(qtyInput.value) || 1;
         let next = current + delta;
@@ -198,16 +192,13 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
         qtyInput.addEventListener('input', () => syncHiddenQty(parseInt(qtyInput.value) || 1));
     }
 
-    // Pilihan Size
     document.querySelectorAll('.size-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
             e.target.classList.add('selected');
             const s = e.target.getAttribute('data-size');
-            // Isi ke hidden input form add cart
             const inp1 = document.getElementById('selected-size');
             if(inp1) inp1.value = s;
-            // Isi ke hidden input form buy now
             const inp2 = document.getElementById('selected-size-2');
             if(inp2) inp2.value = s;
         });
@@ -222,18 +213,16 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
         return true;
     }
 
-    // --- AJAX ADD TO CART ---
     if (formAdd) {
         formAdd.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Cegah reload halaman
+            e.preventDefault();
             
             if (!checkSizeSelected()) return;
 
-            // Update qty terakhir ke hidden field sebelum kirim
             syncHiddenQty(qtyInput.value);
 
             const formData = new FormData(formAdd);
-            formData.append('ajax', '1'); // Penanda untuk cart_action.php
+            formData.append('ajax', '1'); 
 
             const btn = document.getElementById('add-to-cart-btn');
             const originalText = btn.innerText;
@@ -241,12 +230,11 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
             btn.disabled = true;
 
             try {
-                const response = await fetch('cart_action.php', { // Pastikan path benar
+                const response = await fetch('cart_action.php', { 
                     method: 'POST',
                     body: formData
                 });
 
-                // Cek apakah response valid JSON
                 const textResult = await response.text();
                 let result;
                 try {
@@ -257,7 +245,6 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
                 }
 
                 if (result.status === 'success') {
-                    // Update Badge Cart di Header (jika ada elemen id="cart-count")
                     const cartCountEl = document.getElementById('cart-count'); 
                     if (cartCountEl) cartCountEl.innerText = result.total_qty;
                     
@@ -275,7 +262,6 @@ $mainImageSource = $images[0] ?? 'upload/no-image.png';
         });
     }
 
-    // --- BUY NOW BUTTON ---
     if (formBuy) {
         formBuy.addEventListener('submit', (e) => {
             if (!checkSizeSelected()) {

@@ -3,8 +3,7 @@ $page_title = 'History Pemesanan';
 require 'header.php'; 
 require 'db_connect.php'; 
 
-// 1. Ambil ID Pengguna dari Session
-$user_id = $_SESSION['user_id'] ?? null; // <-- Nilai ini HARUS sama dengan yang di kolom orders.user_id
+$user_id = $_SESSION['user_id'] ?? null; 
 
 if (!$user_id) {
     echo '<div class="container" style="text-align:center; padding:50px;"><h2>Silakan login untuk melihat history pemesanan.</h2><a href="login.php" class="btn">Login</a></div>';
@@ -12,17 +11,13 @@ if (!$user_id) {
     exit;
 }
 
-// 2. Ambil semua pesanan user yang sedang login
-// Pastikan nama kolom 'user_id' sudah benar di database
 $sql_orders = "SELECT order_id, total_harga, order_date, status FROM orders WHERE user_id = ? ORDER BY order_date DESC";
 $stmt_orders = $conn->prepare($sql_orders);
 
 if ($stmt_orders === false) {
-    // Pesan error jika query gagal (misalnya kolom user_id belum ada/salah nama)
     die('<div class="container" style="padding:50px;"><h2>Error SQL. Pastikan kolom user_id ada dan benar.</h2></div>');
 }
 
-// Bind parameter (i untuk integer/user_id)
 $stmt_orders->bind_param("i", $user_id);
 $stmt_orders->execute();
 $result_orders = $stmt_orders->get_result();
@@ -46,7 +41,6 @@ $stmt_orders->close();
                 $order_id = $order['order_id'];
                 $status = htmlspecialchars($order['status']);
                 
-                // Tentukan warna status
                 $status_color = '#6c757d';
                 if ($status === 'Menunggu Pembayaran') $status_color = '#dc3545'; 
                 if ($status === 'Diproses') $status_color = '#ffc107'; 
@@ -69,7 +63,7 @@ $stmt_orders->close();
                     <div style="margin-top:10px; padding:5px 0;">
                         <h4 style="font-size:14px; margin-bottom:5px;">Rincian Barang:</h4>
                         <?php
-                        // Ambil detail item untuk pesanan ini (termasuk join ke tabel products)
+                        
                         $sql_items = "
                             SELECT oi.*, p.name, p.image1 
                             FROM order_items oi

@@ -21,7 +21,6 @@ if ($id <= 0) {
     exit;
 }
 
-// cek produk
 $check = $conn->prepare("SELECT name FROM products WHERE id_product = ?");
 $check->bind_param("i", $id);
 $check->execute();
@@ -35,7 +34,6 @@ if ($res->num_rows === 0) {
     exit;
 }
 
-// hapus produk
 $stmt = $conn->prepare("DELETE FROM products WHERE id_product = ?");
 $stmt->bind_param("i", $id);
 

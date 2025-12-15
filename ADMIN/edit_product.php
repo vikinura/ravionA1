@@ -1,14 +1,12 @@
 <?php
 require 'db_connect.php';
 
-// 1. Ambil ID & Validasi
 $id = intval($_GET['id'] ?? 0);
 if ($id <= 0) {
     echo "<script>alert('ID Produk tidak valid!'); window.location='view_product.php';</script>";
     exit;
 }
 
-// 2. Logic Simpan Data (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name        = $_POST['name'] ?? '';
     $brand       = $_POST['brand'] ?? '';
@@ -20,14 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $size        = $_POST['size'] ?? '';
     $stock       = intval($_POST['stock'] ?? 0);
 
-    // Update Text Data
     $stmt = $conn->prepare("UPDATE products SET name=?, brand=?, categories=?, price=?, old_price=?, rating=?, description=?, size=?, stock=? WHERE id_product=?");
     $stmt->bind_param("sssiidssii", $name, $brand, $categories, $price, $old_price, $rating, $description, $size, $stock, $id);
     
     if ($stmt->execute()) {
         $stmt->close();
 
-        // 3. Logic Upload Gambar
         $targetDir = __DIR__ . '/../upload/';
         for ($i = 1; $i <= 5; $i++) {
             $inputName = 'image' . $i;
@@ -47,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 4. Ambil Data Produk Existing
 $stmt = $conn->prepare("SELECT * FROM products WHERE id_product = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -258,7 +253,6 @@ $stmt->close();
     </div>
 
     <script>
-        // Preview Function
         function previewFile(input, imgId) {
             const file = input.files[0];
             if (file) {
@@ -274,7 +268,6 @@ $stmt->close();
             }
         }
         
-        // Sidebar Toggle
         document.querySelectorAll('.parent-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const t = document.getElementById(btn.dataset.target);

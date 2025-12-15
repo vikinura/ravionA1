@@ -1,4 +1,4 @@
-// ordering.js
+
 const STORAGE_KEY = 'ravion_store_db_v1';
 function readDB(){ const raw = localStorage.getItem(STORAGE_KEY); if(!raw){ const seed={products:[],orders:[]}; localStorage.setItem(STORAGE_KEY,JSON.stringify(seed)); return seed;} try{return JSON.parse(raw);}catch(e){return {products:[],orders:[]}} }
 function writeDB(db){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const genBtn = document.getElementById('genOrder');
   const topGrid = document.getElementById('topGrid');
 
-  // Chart.js
   let chart = null;
   function buildChart(labels, data){
     const ctx = document.getElementById('ordersChart').getContext('2d');
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   function refreshAll(){
     const db = readDB();
-    const sel = monthInput.value; // "YYYY-MM"
+    const sel = monthInput.value; 
     const monthly = db.orders.filter(o => o.date && o.date.startsWith(sel));
     const totalRev = monthly.reduce((s,o)=>s + (o.revenue||0), 0);
     const totalOrders = monthly.length;
@@ -46,13 +45,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     expensesEl.textContent = 'Rp ' + rupiah(expenses);
     balanceEl.textContent = 'Rp ' + rupiah(balance);
 
-    // chart labels & data
     const sorted = monthly.slice().sort((a,b)=> a.date.localeCompare(b.date));
     const labels = sorted.map(o=> o.date.split('-')[2] );
     const data = sorted.map(o=> o.revenue );
     buildChart(labels, data);
 
-    // top selling
     topGrid.innerHTML = '';
     const products = db.products.slice().sort((a,b)=> (b.sold||0) - (a.sold||0)).slice(0,8);
     if(products.length === 0) topGrid.innerHTML = '<div class="card">No products yet.</div>';
@@ -83,10 +80,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   monthInput.addEventListener('change', refreshAll);
 
-  // initialize seed if empty
   const dbNow = readDB();
   if(!dbNow.orders.length && !dbNow.products.length){
-    // small seed example
     dbNow.products = [
       {id: uid(), title:'Air Jordan', price:4000000, size:'42', stock:600, category:'Shoes', desc:'Popular', imgs:[], sold:600},
       {id: uid(), title:'Sneaker X', price:2500000, size:'40', stock:120, category:'Shoes', desc:'Casual', imgs:[], sold:350}
@@ -102,6 +97,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
   function defaultMonth(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
   function uid(){ return 'id'+Math.random().toString(36).slice(2,9); }
 
-  // initial render
   refreshAll();
 });
