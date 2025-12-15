@@ -104,9 +104,47 @@ if (isset($_GET["action"])) {
     }
 
     if ($_GET["action"] == "confirm") {
-        $id = $_POST["order_id"];
-        $conn->query("UPDATE orders SET status='confirmed' WHERE order_id='$id'");
-        echo "OK";
+        $order_id = $_POST["order_id"];
+
+        // Aktifkan error mysqli biar kelihatan kalau gagal
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+        $conn->begin_transaction();
+
+        try {
+            $items = $conn->query("
+            SELECT product_id, quantity, size
+            FROM order_items
+            WHERE order_id = '$order_id'
+        ");
+
+            while ($item = $items->fetch_assoc()) {
+                $pid  = $item['product_id'];
+                $qty  = $item['quantity'];
+                $size = $item['size'];
+
+                // Kurangi stok SESUAI SIZE
+                $conn->query("
+                UPDATE products
+                SET stock = stock - $qty
+                WHERE id_product = $pid
+            ");
+            }
+
+            $conn->query("
+            UPDATE orders
+            SET status = 'confirmed'
+            WHERE order_id = '$order_id'
+        ");
+
+            $conn->commit();
+            echo "OK";
+        } catch (Exception $e) {
+            $conn->rollback();
+            http_response_code(500);
+            echo "ERROR: " . $e->getMessage();
+        }
+
         exit;
     }
 }
