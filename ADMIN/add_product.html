@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Ravion Admin</title>
+    <link rel="stylesheet" href="style_admin.css">
+    <style>
+        /* CSS Khusus Layout Add Product (Mirip Edit) */
+        
+        /* Reset container form agar full width mengikuti grid */
+        .form-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Grid 2 Kolom: Kiri (Lebar) - Kanan (Sempit) */
+        .add-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        /* Panel Putih */
+        .panel {
+            background: #fff;
+            padding: 24px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h3.panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: var(--color-black);
+        }
+
+        /* Area Upload Gambar (Grid 5 Kotak) */
+        #photos {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 1;
+            border: 2px dashed #ccc;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 12px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .photo-placeholder:hover {
+            border-color: var(--color-black);
+            color: var(--color-black);
+            background: #fff;
+        }
+        
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsif Mobile */
+        @media (max-width: 900px) {
+            .add-layout { grid-template-columns: 1fr; }
+            #photos { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../img/LOGo2.png" alt="Logo" class="logo-img">
+                <h1>Ravion Store</h1>
+            </div>
+            <div class="nav-title">Navigations</div>
+            <nav class="menu">
+                <div class="menu-parent">
+                    <button class="parent-btn" data-target="home-sub">
+                        <span class="icon">🏠</span><span class="label">Home</span><span class="chev">›</span>
+                    </button>
+                    <div id="home-sub" class="submenu"><a href="../homeuser.php">Main Page</a></div>
+                </div>
+                <div class="menu-parent">
+                    <button class="parent-btn" data-target="product-sub">
+                        <span class="icon">🛍️</span><span class="label">Product</span><span class="chev">›</span>
+                    </button>
+                    <div id="product-sub" class="submenu" style="display:flex;">
+                        <a href="view_product.php">View</a>
+                        <a href="add_product.html" style="color:#fff;">Add Product</a>
+                    </div>
+                </div>
+               <a href="ordering.php" class="single-link"> <span class="icon">📦</span><span class="label">Ordering</span>
+</a>
+            </nav>
+        </aside>
+
+        <main class="container">
+            <div class="flex-between">
+                <h2>Add New Product</h2>
+                <div style="display:flex; gap:10px;">
+                    <a href="view_product.php" class="btn-ghost" style="padding:10px 20px;">Cancel</a>
+                    <button type="button" id="headerSaveBtn" class="btn">Save Product</button>
+                </div>
+            </div>
+
+            <form id="formAddProduct" action="add_product.php" method="POST" enctype="multipart/form-data" class="form-container">
+                
+                <div class="add-layout">
+                    
+                    <div class="left-col">
+                        
+                        <div class="panel">
+                            <h3 class="panel-title">General Information</h3>
+                            
+                            <div class="form-group">
+                                <label class="label">Product Name</label>
+                                <input type="text" name="name" class="input" placeholder="e.g. Nike Air Jordan 1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label">Description</label>
+                                <textarea name="description" class="input" rows="6" placeholder="Write product details here..." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="flex-between" style="margin-bottom:0;">
+                                <h3 class="panel-title" style="border:none; margin:0;">Product Images</h3>
+                                <label for="photoInput" class="btn-ghost" style="font-size:11px; padding: 5px 10px;">+ Choose Files</label>
+                            </div>
+                            <p style="font-size:11px; color:#888; margin-bottom:15px;">Upload up to 5 images. First image is the cover.</p>
+
+                            <input type="file" id="photoInput" name="photos[]" multiple accept="image/*" style="display:none;">
+
+                            <div id="photos">
+                                <div class="photo-placeholder">Cover</div>
+                                <div class="photo-placeholder">+</div>
+                                <div class="photo-placeholder">+</div>
+                                <div class="photo-placeholder">+</div>
+                                <div class="photo-placeholder">+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="right-col">
+                        
+                        <div class="panel">
+                            <h3 class="panel-title">Organization</h3>
+                            
+                            <div class="form-group">
+                                <label class="label">Brand</label>
+                                <input type="text" name="brand" class="input" placeholder="e.g. Nike">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label">Category</label>
+                                <input type="text" name="categories" class="input" placeholder="e.g. Shoes">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label">Size</label>
+                                <input type="text" name="size" class="input" placeholder="e.g. 40, 41, 42">
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <h3 class="panel-title">Pricing & Inventory</h3>
+                            
+                            <div class="form-group">
+                                <label class="label">Price (IDR)</label>
+                                <input type="number" name="price" class="input" placeholder="0" required style="font-weight:bold;">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label">Old Price (Opsional)</label>
+                                <input type="number" name="old_price" class="input" placeholder="0">
+                            </div>
+
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                                <div>
+                                    <label class="label">Stock</label>
+                                    <input type="number" name="stock" class="input" placeholder="0" required>
+                                </div>
+                                <div>
+                                    <label class="label">Rating</label>
+                                    <input type="number" step="0.1" max="5" name="rating" class="input" placeholder="5.0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="saveBtn" class="btn-save" style="width:100%; padding:15px;">Publish Product</button>
+
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // 1. Sidebar Toggle
+        document.querySelectorAll('.parent-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.target;
+                const el = document.getElementById(target);
+                if(el) el.style.display = (el.style.display === 'flex') ? 'none' : 'flex';
+            });
+        });
+
+        // 2. Tombol Save di Header memicu Form Submit
+        document.getElementById('headerSaveBtn').addEventListener('click', function(){
+            document.getElementById('formAddProduct').submit();
+        });
+
+        // 3. Logic Preview Gambar (Simple)
+        const photoInput = document.getElementById('photoInput');
+        const photoContainer = document.getElementById('photos');
+
+        photoInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files).slice(0, 5); // Ambil maks 5 file
+            
+            // Reset Container tapi sisakan struktur 5 kotak
+            photoContainer.innerHTML = '';
+
+            // Loop 5 slot
+            for (let i = 0; i < 5; i++) {
+                const div = document.createElement('div');
+                div.className = 'photo-placeholder';
+
+                if (files[i]) {
+                    // Jika ada file, tampilkan gambarnya
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(files[i]);
+                    div.innerHTML = ''; // Hapus teks +
+                    div.appendChild(img);
+                } else {
+                    // Jika kosong, tampilkan placeholder
+                    div.textContent = (i === 0) ? "Cover" : "+";
+                }
+                
+                // Klik kotak kosong akan memicu input file
+                div.addEventListener('click', () => photoInput.click());
+                
+                photoContainer.appendChild(div);
+            }
+        });
+    </script>
+</body>
+</html>

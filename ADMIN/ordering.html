@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Ravion Store — Ordering</title>
+  <link rel="stylesheet" href="style_admin.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/LOGo2.png" alt="Ravion Logo" class="logo-img">
+        <h1>Ravion Store</h1>
+      </div>
+
+      <div class="nav-title">Navigations</div>
+      <nav class="menu">
+        <div class="menu-parent">
+          <button class="parent-btn" data-target="home-sub">
+            <span class="icon">🏠</span><span class="label">Home</span><span class="chev">›</span>
+          </button>
+          <div id="home-sub" class="submenu">
+            <a href="index.html">Main Page</a>
+            <a href="admin_page.html">Admin Page</a>
+          </div>
+        </div>
+
+        <div class="menu-parent">
+          <button class="parent-btn" data-target="product-sub">
+            <span class="icon">🛍️</span><span class="label">Product</span><span class="chev">›</span>
+          </button>
+          <div id="product-sub" class="submenu">
+            <a href="products.html">View</a>
+            <a href="add_product.html">Add Product</a>
+          </div>
+        </div>
+
+        <a href="ordering.html" class="single-link active"><span class="icon">📦</span><span class="label">Ordering</span><span class="chev">›</span></a>
+      </nav>
+    </aside>
+
+    <main class="container">
+      <div class="page-title">Ordering</div>
+
+      <div class="kpi-row">
+        <div class="kpi card">
+          <h4>Total Revenue <div class="small">Selected Month</div></h4>
+          <div class="value" id="totalRevenue">Rp 0</div>
+          <div class="trend">↑ 12%</div>
+        </div>
+
+        <div class="kpi card">
+          <h4>Total Orders <div class="small">Selected Month</div></h4>
+          <div class="value" id="totalOrders">0</div>
+          <div class="trend">↑ 12%</div>
+        </div>
+      </div>
+
+      <section class="analytics card">
+        <div class="flex-between">
+          <strong>Analytic</strong>
+          <div class="month-control">
+            <label class="muted">Bulan</label>
+            <input id="analyticMonth" type="month" />
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="pill">Income <div class="pill-value" id="income">0</div></div>
+          <div class="pill">Expenses <div class="pill-value" id="expenses">0</div></div>
+          <div class="pill">Balance <div class="pill-value" id="balance">0</div></div>
+        </div>
+
+        <canvas id="ordersChart" height="120"></canvas>
+      </section>
+
+      <section class="card">
+        <div class="flex-between">
+          <strong>Top Selling Products</strong>
+          <button id="genOrder" class="btn btn-ghost">Generate Dummy Order</button>
+        </div>
+
+        <div class="top-grid" id="topGrid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="ordering.js"></script>
+  <script>
+    
+    refreshAll();
+  </script>
+</body>
+</html>

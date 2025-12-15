@@ -1,0 +1,602 @@
+/* =========================================
+   1. RESET & BASIC SETUP
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+:root {
+    --color-black: #000000;
+    --color-dark-gray: #121212;
+    --color-light-gray: #f4f4f4;
+    --color-border: #e0e0e0;
+    --color-white: #ffffff;
+    --color-text: #111111;
+    --color-text-muted: #757575;
+    --color-danger: #d32f2f;
+    
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --font-main: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-light-gray);
+    color: var(--color-text);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* =========================================
+   2. LAYOUT UTAMA
+   ========================================= */
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================
+   3. SIDEBAR STYLE (FIXED)
+   ========================================= */
+.sidebar {
+    width: 260px;
+    background-color: var(--color-black); /* Hitam Pekat */
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    padding: 25px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+    border-right: 1px solid #333;
+}
+
+/* Brand Area */
+.sidebar .brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 25px 25px 25px;
+    border-bottom: 1px solid #000000;
+    margin-bottom: 20px;
+}
+
+/* Cari bagian ini di style_admin.css dan perbaiki */
+.logo-img {
+    width: 35px;           /* Ukuran lebar logo */
+    height: auto;          /* Tinggi menyesuaikan */
+    object-fit: contain;   /* Agar gambar tidak gepeng */
+}
+.sidebar h1 {
+    font-size: 18px;
+    font-weight: 900; /* Extra Bold */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Navigation Title */
+.nav-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #888; /* Abu-abu agak terang */
+    padding: 0 25px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+/* Menu List */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Tombol Menu - SAYAUBAH MENJADI PUTIH DEFAULT */
+.parent-btn, .single-link {
+    background: transparent;
+    border: none;
+    color: #ffffff; /* Langsung Putih agar terlihat */
+    width: 100%;
+    text-align: left;
+    padding: 14px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+    opacity: 0.7; /* Sedikit transparan saat diam */
+}
+
+/* Icon */
+.parent-btn .icon, .single-link .icon {
+    margin-right: 15px;
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Hover State */
+.parent-btn:hover, .single-link:hover {
+    background-color: #1a1a1a;
+    opacity: 1; /* Putih penuh saat hover */
+    border-left-color: #ffffff;
+}
+
+/* Submenu */
+.submenu {
+    display: none; 
+    flex-direction: column;
+    background-color: #111;
+    padding: 5px 0;
+}
+
+.submenu a {
+    display: block;
+    padding: 10px 25px 10px 65px;
+    color: #bbb;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.submenu a:hover {
+    color: #fff;
+    background: #222;
+}
+
+/* =========================================
+   4. KONTEN UTAMA
+   ========================================= */
+.container, main {
+    flex: 1;
+    margin-left: 260px;
+    padding: 30px 40px;
+    background-color: var(--color-light-gray);
+    min-height: 100vh;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: var(--color-black);
+    text-transform: uppercase;
+}
+
+/* =========================================
+   5. CARDS & FORMS
+   ========================================= */
+.page-card, .card, .panel, .form-container {
+    background: var(--color-white);
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+/* Layout Grid untuk Add/Edit Product */
+.add-layout, .edit-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.label {
+    display: block;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--color-black);
+    letter-spacing: 0.5px;
+}
+
+.input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd; /* Border lebih tebal sedikit */
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    color: #000;
+    outline: none;
+    border-radius: 0; /* Kotak tegas */
+}
+
+.input:focus, textarea:focus {
+    border-color: #000;
+}
+
+/* Buttons */
+.btn, .btn-save, button[type=submit] {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+.btn:hover, .btn-save:hover { background: #333; }
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid #000;
+    color: #000;
+    padding: 10px 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.btn-ghost:hover { background: #000; color: #fff; }
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   FIX: TOMBOL AKSI (EDIT & DELETE)
+   (Letakkan atau ganti bagian ini di style_admin.css)
+   ========================================= */
+
+/* Wrapper agar tombol berjejer rapi dengan jarak */
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Memberi jarak 10px antar tombol */
+    align-items: center;
+}
+
+/* Style Dasar Tombol Aksi */
+.btn-action {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.5px;
+}
+
+/* Tombol Edit: ABU-ABU */
+.btn-edit { 
+    background-color: #808080; /* Warna Abu-abu */
+    color: #ffffff; 
+}
+.btn-edit:hover { 
+    background-color: #666666; /* Abu-abu lebih gelap saat hover */
+}
+
+/* Tombol Delete: MERAH */
+.btn-delete { 
+    background-color: #d32f2f; /* Warna Merah */
+    color: #ffffff; 
+}
+.btn-delete:hover { 
+    background-color: #b71c1c; /* Merah lebih gelap saat hover */
+}
+/* =========================================
+   6. TABLES
+   ========================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+table th {
+    background: #000;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 15px;
+    font-size: 12px;
+    text-align: left;
+}
+table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+/* =========================================
+   7. PHOTO UPLOAD GRID
+   ========================================= */
+#photos, .img-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+.photo-placeholder, .img-slot {
+    aspect-ratio: 1;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    background: #f9f9f9;
+}
+.photo-placeholder:hover, .img-slot:hover {
+    border-color: #000;
+    background: #fff;
+}
+.photo-placeholder img, .img-slot img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+
+/* =========================================
+   8. RESPONSIVE (MOBILE)
+   ========================================= */
+@media (max-width: 900px) {
+    /* Form jadi 1 kolom di layar kecil */
+    .add-layout, .edit-layout { grid-template-columns: 1fr; }
+    #photos { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+    /* Sidebar mengecil di mobile */
+    .sidebar { width: 70px; padding: 15px 0; }
+    .container, main { margin-left: 70px; padding: 20px; }
+    
+    /* Sembunyikan teks label di sidebar mobile */
+    .sidebar h1, .nav-title, .sidebar .label, .sidebar .chev { display: none; }
+    
+    .sidebar .brand { justify-content: center; padding: 0 0 15px 0; }
+    .parent-btn, .single-link { justify-content: center; padding: 15px 0; border: none; }
+    .parent-btn .icon, .single-link .icon { margin: 0; font-size: 22px; }
+    
+    /* Submenu mobile melayang */
+    .submenu {
+        position: absolute;
+        left: 70px;
+        width: 180px;
+        background: #000;
+        border: 1px solid #333;
+        z-index: 200;
+    }
+}
+
+/* =========================================
+   FIX: PAKSA TEKS SIDEBAR JADI PUTIH
+   (Paste ini di bagian paling bawah style_admin.css)
+   ========================================= */
+
+/* Override class .label yang hitam (milik form) khusus untuk sidebar */
+.sidebar .label {
+    color: #ffffff !important; /* Paksa Putih */
+    margin-bottom: 0; /* Reset margin form */
+    font-size: 13px; /* Sesuaikan ukuran font */
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Pastikan button parent warnanya juga putih */
+.parent-btn, 
+.single-link {
+    color: #ffffff !important;
+}
+
+/* Pastikan icon juga putih */
+.sidebar .icon {
+    color: #ffffff !important;
+    filter: none !important; /* Hilangkan filter grayscale jika ada */
+}
+
+/* Hover effect tetap jalan */
+.parent-btn:hover .label,
+.single-link:hover .label {
+    color: #ffffff !important;
+    opacity: 1;
+}
+
+/* Sembunyikan label hanya di layar HP kecil */
+@media (max-width: 768px) {
+    .sidebar .label {
+        display: none !important;
+    }
+}
+
+/* =========================================
+   TAMBAHAN KHUSUS HALAMAN ORDERING
+   (Letakkan di paling bawah style_admin.css)
+   ========================================= */
+
+/* 1. Layout Grid untuk KPI (Baris Statistik) */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Responsif */
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Pastikan KPI Card punya tinggi yang pas */
+.kpi-row .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    border-left: 5px solid var(--color-black); /* Aksen garis tebal kiri */
+    min-height: 120px;
+}
+
+.kpi-row h4 {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.kpi-row div[id^="total"], 
+.kpi-row div[id="income"],
+.kpi-row div[id="expenses"],
+.kpi-row div[id="balance"] {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--color-black);
+}
+
+/* 2. Kartu Pesanan (Payment List) */
+#paymentList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pay-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 0; /* Padding diatur di anak elemen */
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.pay-card:hover {
+    transform: translateY(-2px); /* Efek naik sedikit saat hover */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-color: #000;
+}
+
+/* Header Kartu Pesanan (Bagian Atas) */
+.pay-header {
+    padding: 20px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.pay-header h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.pay-header p {
+    font-size: 13px;
+    color: #555;
+    margin: 3px 0;
+    line-height: 1.4;
+}
+
+/* Tombol Confirm di dalam Header */
+.pay-header button {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    align-self: flex-start; /* Agar tombol ada di atas kanan */
+}
+
+.pay-header button:hover {
+    background: #333;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 3. Daftar Item dalam Pesanan */
+.pay-items {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    background: #fff;
+}
+
+.item-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    background: #fff;
+}
+
+.prod-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+.item-info {
+    font-size: 13px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.item-info b {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+/* 4. Input Bulan (Analytics) */
+#analyticMonth {
+    border: 2px solid #ddd;
+    padding: 8px 12px;
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: #000;
+    outline: none;
+    cursor: pointer;
+    background: #fff;
+}
+
+#analyticMonth:focus {
+    border-color: #000;
+}
+
+/* Responsive Mobile Ordering */
+@media (max-width: 600px) {
+    .pay-header {
+        flex-direction: column;
+    }
+    .pay-header button {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .pay-items {
+        grid-template-columns: 1fr; /* 1 kolom di HP */
+    }
+}
