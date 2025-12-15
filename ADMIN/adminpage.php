@@ -31,7 +31,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role2'] != 'admin') {
             <span class="icon">🏠</span><span class="label">Home</span><span class="chev">›</span>
           </button>
           <div id="home-sub" class="submenu">
-            <a href="../homeuser.php">Main Page</a>
+            <a href="../index.php">Main Page</a>
           </div>
         </div>
 
