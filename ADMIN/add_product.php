@@ -1,25 +1,27 @@
 <?php
-// add_product.php
-// Letakkan file ini di folder yang sesuai (mis: websepatu/admin/ atau websepatu/USER/)
-// Pastikan path ke db_connect.php benar
 include 'db_connect.php';
 
-function respond($msg)
+header('Content-Type: application/json');
+
+function respond($status, $msg)
 {
-    echo $msg;
+    echo json_encode([
+        'status' => $status,
+        'message' => $msg
+    ]);
     exit;
 }
 
-// Hanya terima POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    respond('Metode tidak diizinkan! Gunakan form untuk mengirim data.');
+    respond('error', 'Metode tidak diizinkan! Gunakan form.');
 }
 
 // Pastikan direktori upload (relatif ke lokasi file ini)
-$targetDir = __DIR__ . "/../upload/"; // sesuaikan ../ jika file di root
+$targetDir = __DIR__ . "/../upload/";
+
 if (!is_dir($targetDir)) {
     if (!mkdir($targetDir, 0777, true)) {
-        respond('Gagal membuat folder upload. Periksa permission.');
+        respond('error', 'Gagal membuat folder upload. Periksa permission.');
     }
 }
 
@@ -28,7 +30,7 @@ $name = $conn->real_escape_string($_POST['name'] ?? '');
 $price = floatval($_POST['price'] ?? 0);
 $stock = intval($_POST['stock'] ?? 0);
 $size = $conn->real_escape_string($_POST['size'] ?? '');
-$brand = $conn->real_escape_string( $_POST['brand'] ?? '');
+$brand = $conn->real_escape_string($_POST['brand'] ?? '');
 $old_price = isset($_POST['old_price']) ? intval($_POST['old_price']) : null;
 $rating      = floatval($_POST['rating'] ?? 0);
 $description = $conn->real_escape_string($_POST['description'] ?? '');
@@ -87,7 +89,7 @@ $stmt->bind_param(
 
 
 if ($stmt->execute()) {
-    respond('Produk berhasil ditambahkan!');
+    respond('success', 'Produk berhasil ditambahkan!');
 } else {
-    respond('Error saat menyimpan produk: ' . $stmt->error);
+    respond('error', 'Error saat menyimpan produk: ' . $stmt->error);
 }

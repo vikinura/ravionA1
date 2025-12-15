@@ -16,27 +16,32 @@ $msg = $_GET['msg'] ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Product - Ravion Admin</title>
     <link rel="stylesheet" href="style_admin.css">
-    
+
     <style>
         /* Paksa Modal agar di atas segalanya */
         #modalOverlay {
-            display: none; /* Default sembunyi */
+            display: none;
+            /* Default sembunyi */
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 9999 !important; /* Angka z-index sangat tinggi */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999 !important;
+            /* Angka z-index sangat tinggi */
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(2px);
         }
+
         .modal-content {
             background: #fff;
             padding: 30px;
             width: 400px;
             max-width: 90%;
             border-radius: 4px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             text-align: center;
             border: 1px solid #000;
         }
@@ -45,7 +50,7 @@ $msg = $_GET['msg'] ?? '';
 
 <body>
     <div class="app">
-        
+
         <aside class="sidebar">
             <div class="brand">
                 <img src="../img/LOGo2.png" alt="Logo" class="logo-img">
@@ -80,7 +85,7 @@ $msg = $_GET['msg'] ?? '';
         </aside>
 
         <main class="container">
-            
+
             <div class="flex-between">
                 <h2>Product List</h2>
                 <a href="add_product.html" class="btn">Add New Product</a>
@@ -109,12 +114,13 @@ $msg = $_GET['msg'] ?? '';
                         </thead>
                         <tbody>
                             <?php if ($res && $res->num_rows > 0): ?>
-                                <?php $no = 1; while ($row = $res->fetch_assoc()): ?>
+                                <?php $no = 1;
+                                while ($row = $res->fetch_assoc()): ?>
                                     <tr>
                                         <td><?= $no++ ?></td>
                                         <td>
-                                            <?php 
-                                                $img = !empty($row['image1']) ? "../upload/" . $row['image1'] : "https://via.placeholder.com/60";
+                                            <?php
+                                            $img = !empty($row['image1']) ? "../upload/" . $row['image1'] : "https://via.placeholder.com/60";
                                             ?>
                                             <img src="<?= htmlspecialchars($img) ?>" alt="img">
                                         </td>
@@ -125,18 +131,18 @@ $msg = $_GET['msg'] ?? '';
                                         <td><?= htmlspecialchars($row['brand']) ?></td>
                                         <td>Rp <?= number_format($row['price'], 0, ',', '.') ?></td>
                                         <td>
-                                            <?= $row['stock'] ?> 
-                                            <?php if($row['stock'] < 5) echo '<span style="color:red; font-size:10px;">(Low)</span>'; ?>
+                                            <?= $row['stock'] ?>
+                                            <?php if ($row['stock'] < 5) echo '<span style="color:red; font-size:10px;">(Low)</span>'; ?>
                                         </td>
                                         <td><?= htmlspecialchars($row['categories']) ?></td>
                                         <td>
                                             <div class="action-buttons">
                                                 <a href="edit_product.php?id=<?= $row['id_product'] ?>" class="btn-action btn-edit">Edit</a>
-                                                
-                                                <button type="button" 
-                                                        class="btn-action btn-delete js-delete-btn" 
-                                                        data-id="<?php echo $row['id_product']; ?>"
-                                                        data-name="<?php echo htmlspecialchars($row['name']); ?>">
+
+                                                <button type="button"
+                                                    class="btn-action btn-delete js-delete-btn"
+                                                    data-id="<?php echo $row['id_product']; ?>"
+                                                    data-name="<?php echo htmlspecialchars($row['name']); ?>">
                                                     Delete
                                                 </button>
                                             </div>
@@ -161,10 +167,10 @@ $msg = $_GET['msg'] ?? '';
         <div class="modal-content">
             <h3>Konfirmasi Hapus</h3>
             <p id="modalText">Apakah anda yakin?</p>
-            
-            <form id="deleteForm" action="delete_product.php" method="POST">
+
+            <form id="deleteForm">
                 <input type="hidden" name="id_product" id="deleteId" value="">
-                
+
                 <div class="modal-btns">
                     <button type="button" class="btn-ghost" id="btnCancelModal">Batal</button>
                     <button type="submit" class="btn-delete" style="border:none; padding:10px 20px;">Ya, Hapus</button>
@@ -175,13 +181,13 @@ $msg = $_GET['msg'] ?? '';
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            
+
             // 1. Sidebar Logic
             document.querySelectorAll('.parent-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const target = btn.dataset.target;
                     const el = document.getElementById(target);
-                    if(el) el.style.display = (el.style.display === 'flex') ? 'none' : 'flex';
+                    if (el) el.style.display = (el.style.display === 'flex') ? 'none' : 'flex';
                 });
             });
 
@@ -215,15 +221,45 @@ $msg = $_GET['msg'] ?? '';
             }
 
             // Event Listener Tutup Modal
-            if(btnCancel) btnCancel.addEventListener('click', closeModal);
-            
-            if(modal) {
+            if (btnCancel) btnCancel.addEventListener('click', closeModal);
+
+            if (modal) {
                 modal.addEventListener('click', function(e) {
                     if (e.target === modal) closeModal();
                 });
             }
 
         });
+        //hapus produk
+        const deleteForm = document.getElementById('deleteForm');
+
+        deleteForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // ⛔ stop reload halaman
+
+            const formData = new FormData(deleteForm);
+
+            fetch('delete_product.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message); // 🔔 notifikasi
+
+                    if (data.status === 'success') {
+                        // tutup modal
+                        document.getElementById('modalOverlay').style.display = 'none';
+
+                        // reload halaman biar data update
+                        location.reload();
+                    }
+                })
+                .catch(err => {
+                    alert('Terjadi kesalahan sistem');
+                    console.error(err);
+                });
+        });
     </script>
 </body>
+
 </html>

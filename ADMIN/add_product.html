@@ -263,6 +263,39 @@
                 photoContainer.appendChild(div);
             }
         });
+
+        const form = document.getElementById('formAddProduct');
+
+        // tahan submit biasa
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fd = new FormData(form); // termasuk file upload
+
+            fetch('add_product.php', {
+                method: 'POST',
+                body: fd
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+
+                if (data.status === 'success') {
+                    // kalau sukses, balik ke list produk
+                    window.location.href = "view_product.php?msg=" + encodeURIComponent(data.message);
+                }
+            })
+            .catch(err => {
+                alert("Terjadi kesalahan sistem");
+                console.error(err);
+            });
+        });
+
+        // header save button tetap jalan, tapi sekarang dia akan trigger submit yang sudah kita intercept
+        document.getElementById('headerSaveBtn').addEventListener('click', function(){
+            form.requestSubmit(); // lebih bagus daripada form.submit()
+        });
+
     </script>
 </body>
 </html>
