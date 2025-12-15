@@ -25,7 +25,11 @@ require 'header.php';
         <p>Koleksi sepatu terbaru — performa dan gaya untuk setiap langkahmu.</p>
         <div class="cta-row">
           <a class="btn" href="products.php">Belanja Sekarang</a>
+<<<<<<< HEAD
           <a class="btn ghost" href="products.php#new">New Arrivals</a>
+=======
+          <a class="btn ghost" href="products.php">New Arrivals</a>
+>>>>>>> 9723a675da2df4d870deb6a4f8fc710840e9cecb
         </div>
       </div>
     </div>
