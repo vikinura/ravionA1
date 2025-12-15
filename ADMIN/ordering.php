@@ -1,17 +1,7 @@
 <?php
-<<<<<<< HEAD
-$conn = new mysqli("localhost", "root", "", "web_login");
-if ($conn->connect_error) {
-    die("DB Error: " . $conn->connect_error);
-}
-=======
-// FILE: ADMIN/ordering.php
->>>>>>> 9723a675da2df4d870deb6a4f8fc710840e9cecb
 
-// 1. Ganti koneksi inline dengan require db_connect.php
 require 'db_connect.php'; 
 
-// =============== HANDLE AJAX REQUESTS ===============
 if (isset($_GET["action"])) {
 
     // ---- 1. Ambil Dashboard Data ----
