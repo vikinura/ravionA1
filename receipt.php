@@ -31,6 +31,7 @@ if ($result_order->num_rows > 0) {
 $stmt_order->close();
 
 // Cek jika pesanan tidak ditemukan
+//ardan
 if (!$order) {
     die("Error: Pesanan dengan ID #{$order_id} tidak ditemukan.");
 }
