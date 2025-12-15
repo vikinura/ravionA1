@@ -24,8 +24,8 @@ require 'header.php';
         <h1>Step into style</h1>
         <p>Koleksi sepatu terbaru — performa dan gaya untuk setiap langkahmu.</p>
         <div class="cta-row">
-          <a class="btn" href="products.html">Belanja Sekarang</a>
-          <a class="btn ghost" href="products.html#new">New Arrivals</a>
+          <a class="btn" href="products.php">Belanja Sekarang</a>
+          <a class="btn ghost" href="products.php">New Arrivals</a>
         </div>
       </div>
     </div>
