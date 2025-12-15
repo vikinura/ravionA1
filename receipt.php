@@ -37,7 +37,6 @@ if (!$order) {
 }
 
 // 3. Ambil Data Detail Item Pesanan (order_items)
-//test 
 $sql_items = "
     SELECT oi.*, p.name, p.brand, p.image1 
     FROM order_items oi

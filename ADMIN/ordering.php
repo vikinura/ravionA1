@@ -142,7 +142,7 @@ if (isset($_GET["action"])) {
                         <span class="icon">🏠</span><span class="label">Home</span><span class="chev">›</span>
                     </button>
                     <div id="home-sub" class="submenu">
-                        <a href="../homeuser.php">Main Page</a>
+                        <a href="../index.php">Main Page</a>
                     </div>
                 </div>
 
