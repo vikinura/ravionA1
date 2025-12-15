@@ -1,11 +1,13 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "web_login.");
-if ($conn->connect_error) {
-    die("DB Error: " . $conn->connect_error);
-}
+// FILE: ADMIN/ordering.php
 
+// 1. Ganti koneksi inline dengan require db_connect.php
+require 'db_connect.php'; 
+
+// =============== HANDLE AJAX REQUESTS ===============
 if (isset($_GET["action"])) {
 
+    // ---- 1. Ambil Dashboard Data ----
     if ($_GET["action"] == "dashboard") {
         $month = $_GET["month"];
 
@@ -70,6 +72,7 @@ if (isset($_GET["action"])) {
         exit;
     }
 
+    // ---- 2. Ambil semua orders ----
     if ($_GET["action"] == "payments") {
 
         $orders = [];
@@ -103,6 +106,7 @@ if (isset($_GET["action"])) {
         exit;
     }
 
+    // ---- 3. Konfirmasi pembayaran ----
     if ($_GET["action"] == "confirm") {
         $order_id = $_POST["order_id"];
 
@@ -175,7 +179,7 @@ if (isset($_GET["action"])) {
                         <span class="icon">🏠</span><span class="label">Home</span><span class="chev">›</span>
                     </button>
                     <div id="home-sub" class="submenu">
-                        <a href="../index.php">Main Page</a>
+                        <a href="../homeuser.php">Main Page</a>
                     </div>
                 </div>
 
@@ -217,6 +221,12 @@ if (isset($_GET["action"])) {
                     </div>
                 </div>
             </section>
+            
+            <div style="display:none">
+                <div id="income"></div>
+                <div id="expenses"></div>
+                <div id="balance"></div>
+            </div>
 
             <canvas id="ordersChart" height="120"></canvas>
         </main>
@@ -240,9 +250,15 @@ if (isset($_GET["action"])) {
 
             document.getElementById("totalRevenue").textContent = "Rp " + rupiah(j.revenue);
             document.getElementById("totalOrders").textContent = j.totalOrders;
-            document.getElementById("income").textContent = "Rp " + rupiah(j.income);
-            document.getElementById("expenses").textContent = "Rp " + rupiah(j.expenses);
-            document.getElementById("balance").textContent = "Rp " + rupiah(j.balance);
+            
+            // Periksa elemen sebelum mengatur konten (untuk menghindari error jika elemen tidak terlihat)
+            const incomeEl = document.getElementById("income");
+            const expensesEl = document.getElementById("expenses");
+            const balanceEl = document.getElementById("balance");
+            
+            if(incomeEl) incomeEl.textContent = "Rp " + rupiah(j.income);
+            if(expensesEl) expensesEl.textContent = "Rp " + rupiah(j.expenses);
+            if(balanceEl) balanceEl.textContent = "Rp " + rupiah(j.balance);
 
             const ctx = document.getElementById("ordersChart");
             if (chart) chart.destroy();
