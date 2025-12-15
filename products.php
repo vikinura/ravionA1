@@ -24,58 +24,70 @@ require 'header.php';
 ?>
 
 <main>
-  <section class="products-section container">
-    <h2>Produk Sepatu</h2>
+  <div class="container" style="padding-top: 40px; padding-bottom: 60px;">
+    
+    <div class="page-header">
+        <h2 class="section-title">Koleksi Sepatu</h2>
 
-    <div class="filters">
-      <form action="products.php" method="GET" style="display:flex; gap:12px; flex:1">
-        <input name="search" id="search" placeholder="Cari sepatu..." value="<?php echo htmlspecialchars($search); ?>" />
-        <select name="sort" id="sort" onchange="this.form.submit()">
-          <option value="default" <?php echo ($sort=='default')?'selected':''; ?>>Sort: Relevansi</option>
-          <option value="price-asc" <?php echo ($sort=='price-asc')?'selected':''; ?>>Harga: Rendah ke Tinggi</option>
-          <option value="price-desc" <?php echo ($sort=='price-desc')?'selected':''; ?>>Harga: Tinggi ke Rendah</option>
-        </select>
-        <button type="submit" style="padding:10px; border-radius:8px; border:1px solid #ddd;">Cari</button>
-      </form>
+        <form action="products.php" method="GET" class="filter-form">
+            
+            <input type="text" name="search" class="search-input" 
+                   placeholder="Cari sepatu..." 
+                   value="<?php echo htmlspecialchars($search); ?>">
+
+            <select name="sort" class="sort-select" onchange="this.form.submit()">
+                <option value="default" <?php if($sort == 'default') echo 'selected'; ?>>Terbaru</option>
+                <option value="price-asc" <?php if($sort == 'price-asc') echo 'selected'; ?>>Harga Terendah</option>
+                <option value="price-desc" <?php if($sort == 'price-desc') echo 'selected'; ?>>Harga Tertinggi</option>
+            </select>
+        </form>
     </div>
 
-    <div id="products-grid" class="products-grid">
-      <?php if ($res && $res->num_rows > 0): ?>
-        <?php while ($p = $res->fetch_assoc()):
-            $formattedPrice = number_format($p['price'], 0, ',', '.');
-            $formattedOldPrice = $p['old_price'] ? number_format($p['old_price'], 0, ',', '.') : null;
-        ?>
-          <div class="card">
-            <a href="product.php?id=<?php echo $p['id_product']; ?>">
-              <img src="upload/<?php echo htmlspecialchars($p['image1']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>" />
-            </a>
-            <div class="meta">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                  <div style="font-size:14px;color:var(--muted)"><?php echo htmlspecialchars($p['brand']); ?></div>
-                  <div style="font-weight:700"><?php echo htmlspecialchars($p['name']); ?></div>
+    <div class="product-grid">
+        <?php if ($res && $res->num_rows > 0): ?>
+            <?php while ($p = $res->fetch_assoc()): 
+                // Logic PHP Harga
+                $formattedPrice = number_format($p['price'], 0, ',', '.');
+                $formattedOldPrice = $p['old_price'] ? number_format($p['old_price'], 0, ',', '.') : null;
+            ?>
+                
+                <div class="product-card">
+                    <a href="product.php?id=<?php echo $p['id_product']; ?>" class="card-img-wrap">
+                        <img src="upload/<?php echo $p['image1']; ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
+                    </a>
+
+                    <div class="card-body">
+                        <div class="card-brand"><?php echo htmlspecialchars($p['brand']); ?></div>
+                        <h3 class="card-title">
+                            <a href="product.php?id=<?php echo $p['id_product']; ?>" style="text-decoration:none; color:inherit;">
+                                <?php echo htmlspecialchars($p['name']); ?>
+                            </a>
+                        </h3>
+                        
+                        <div class="price-box">
+                            <span class="card-price">Rp <?php echo $formattedPrice; ?></span>
+                            <?php if ($formattedOldPrice): ?>
+                                <span class="card-old-price">Rp <?php echo $formattedOldPrice; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <a href="product.php?id=<?php echo $p['id_product']; ?>" class="btn-card-action">
+                        Lihat Detail
+                    </a>
                 </div>
-                <div style="text-align:right">
-                  <div class="price">Rp <?php echo $formattedPrice; ?></div>
-                  <?php if ($formattedOldPrice): ?>
-                    <div style="text-decoration:line-through;color:var(--muted);font-size:13px">Rp <?php echo $formattedOldPrice; ?></div>
-                  <?php endif; ?>
-                </div>
-              </div>
-              <div style="margin-top:10px;">
-              <a class="btn-sm" style="display:block; text-align:center; width:100%; box-sizing:border-box;" href="product.php?id=<?php echo $p['id_product']; ?>">
-              Lihat Detail & Pilih Ukuran
-              </a>
-              </div>
+
+            <?php endwhile; ?>
+        <?php else: ?>
+            <div style="grid-column: 1/-1; text-align:center; padding: 40px;">
+                <h3 style="color:#666;">Produk tidak ditemukan</h3>
+                <p>Coba kata kunci lain atau reset pencarian.</p>
+                <a href="products.php" style="color:var(--accent); text-decoration:underline;">Lihat Semua Produk</a>
             </div>
-          </div>
-        <?php endwhile; ?>
-      <?php else: ?>
-        <p>Tidak ada produk ditemukan.</p>
-      <?php endif; ?>
+        <?php endif; ?>
     </div>
-
-  </section>
+    
+  </div>
 </main>
 
 <?php

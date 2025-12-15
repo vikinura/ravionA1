@@ -734,3 +734,186 @@ h1{font-size:40px;margin:0 0 12px}
     background-color: #dc3545;  
     color: #fff;                
 }
+
+/* --- UPDATE DESAIN PRODUK (Tanpa Merusak Logic) --- */
+
+/* 1. Tampilan Grid di Halaman Katalog */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    border-color: transparent;
+}
+
+.card-img-wrap {
+    width: 100%;
+    aspect-ratio: 1/1; /* Agar gambar kotak presisi */
+    background: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.card-img-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform 0.4s;
+}
+
+.product-card:hover .card-img-wrap img {
+    transform: scale(1.08); /* Efek zoom halus */
+}
+
+.card-body {
+    padding: 15px;
+    text-align: left;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-brand { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+.card-price { font-size: 16px; color: var(--accent); font-weight: 600; margin-top: auto; }
+.card-old-price { font-size: 12px; color: #999; text-decoration: line-through; margin-left: 8px; }
+
+/* Tombol di Katalog */
+.btn-card-action {
+    display: block;
+    text-align: center;
+    background: var(--black);
+    color: #fff;
+    padding: 12px;
+    margin: 15px;
+    margin-top: 0;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.btn-card-action:hover { background: var(--accent); color: #fff; }
+
+
+/* 2. Tampilan Halaman Detail (product.php) */
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Kiri gambar lebih besar */
+    gap: 50px;
+    align-items: start;
+    margin-top: 40px;
+}
+
+.detail-img-box {
+    background: #f4f4f4;
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+}
+.detail-img-box img { width: 100%; max-width: 450px; height: auto; mix-blend-mode: multiply; }
+
+.detail-info h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+.detail-brand { font-size: 14px; font-weight: 600; color: #666; text-transform: uppercase; margin-bottom: 15px; display: block; }
+.detail-price-lg { font-size: 26px; color: var(--accent); font-weight: 700; margin-bottom: 25px; display: block; }
+
+.detail-desc {
+    font-size: 15px; color: #555; line-height: 1.6;
+    border-top: 1px solid #eee; border-bottom: 1px solid #eee;
+    padding: 20px 0; margin-bottom: 25px;
+}
+
+/* Styling Form agar modern */
+.form-row { margin-bottom: 20px; }
+.form-label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 8px; text-transform: uppercase; }
+
+.modern-select, .modern-input {
+    width: 100%; padding: 12px; border: 2px solid #eee;
+    border-radius: 8px; font-size: 15px; font-family: inherit;
+    transition: 0.3s;
+}
+.modern-select:focus, .modern-input:focus { border-color: var(--black); outline: none; }
+
+.btn-add-big {
+    width: 100%; padding: 16px;
+    background: var(--black); color: #fff;
+    font-size: 16px; font-weight: 700;
+    border: none; border-radius: 8px;
+    cursor: pointer; transition: 0.3s;
+    display: flex; justify-content: center; align-items: center; gap: 10px;
+}
+.btn-add-big:hover { background: var(--accent); transform: translateY(-2px); }
+
+/* Responsif HP */
+@media (max-width: 768px) {
+    .product-detail-layout { grid-template-columns: 1fr; gap: 30px; }
+}
+
+/* --- STYLE UNTUK FILTER & PENCARIAN --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.filter-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 250px;
+    font-family: inherit;
+}
+
+.sort-select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Responsif untuk HP */
+@media (max-width: 600px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .filter-form, .search-input, .sort-select {
+        width: 100%;
+    }
+}
